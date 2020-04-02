@@ -1,8 +1,6 @@
 package org.wso2.transport.tcp_custom;
 
 import org.apache.axis2.AxisFault;
-import org.apache.axis2.description.AxisService;
-import org.apache.axis2.transport.base.AbstractTransportListener;
 import org.apache.axis2.transport.base.AbstractTransportListenerEx;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -16,9 +14,6 @@ public class CustomTransportListener extends AbstractTransportListenerEx<TCPEndp
     private static final Log log = LogFactory.getLog(CustomTransportListener.class);
 
     private Map<TCPEndpoint, TCPClient> serverTable = new ConcurrentHashMap<TCPEndpoint, TCPClient>();
-    public String address=null;
-    public int port=0;
-
 
     protected void doInit() throws AxisFault {
 
@@ -30,17 +25,11 @@ public class CustomTransportListener extends AbstractTransportListenerEx<TCPEndp
     }
 
 
-
     protected void startEndpoint(TCPEndpoint endpoint) throws AxisFault {
-        log.info("address : " + endpoint.getHost()+" <<----------->>   port : "+endpoint.getPort());
-        address=endpoint.getHost();
-        port=endpoint.getPort();
         try {
-            TCPClient client = new TCPClient(address, port,endpoint,workerPool);
-            log.info("client object : " + client);
+            TCPClient client = new TCPClient(endpoint,workerPool);
             serverTable.put(endpoint, client);
             client.startSocket();
-            //client.receiveFromServer();
         } catch (IOException e) {
             handleException("Error while starting the TCP endpoint", e);
         }

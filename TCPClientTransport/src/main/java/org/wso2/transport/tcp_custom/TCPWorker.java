@@ -46,7 +46,7 @@ public class TCPWorker implements Runnable {
             InetAddress remoteAddress = ((InetSocketAddress) socket.getRemoteSocketAddress()).getAddress();
             msgContext.setProperty(MessageContext.REMOTE_ADDR, remoteAddress.getHostAddress());
             msgContext.setProperty(TCPConstants.PARAM_HOST, getHostName(remoteAddress));
-            msgContext.setIncomingTransportName(Constants.TRANSPORT_TCP);
+            msgContext.setIncomingTransportName(ClientConstants.TRANSPORT_NAME);
             TCPOutTransportInfo outInfo = new TCPOutTransportInfo();
             outInfo.setSocket(socket);
             outInfo.setClientResponseRequired(endpoint.isClientResponseRequired());
